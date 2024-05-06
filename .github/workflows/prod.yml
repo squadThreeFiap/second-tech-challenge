@@ -1,0 +1,35 @@
+name: Deploy Application parkiMeterPro
+
+on:
+    push:
+        branches: [main]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Setup Java
+              uses: actions/setup-java@v4
+              with:
+                distribution: 'temurin'
+                java-version: '17'
+            - name: Build project
+              run: mvn clean install -DskipTests
+            - name: Login Docker Hub
+              run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+            - name: Build docker image
+              run: docker build -t squadthreefiap/deploy_ghactions .
+            - name: Push image docker
+              run: docker push squadthreefiap/deploy_ghactions
+              
+    deploy:
+        needs: build
+        runs-on: self-hosted
+        steps:
+            - name: Pull image from docker hub
+              run: docker pull squadthreefiap/deploy_ghactions:latest
+            - name: Remove docker container
+              run: docker rm -f deploy_ghactions

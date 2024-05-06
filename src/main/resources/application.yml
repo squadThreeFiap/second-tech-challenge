@@ -1,0 +1,21 @@
+spring:
+  application:
+     name: parkiMeterPro
+  profiles: 
+     active: 'local'
+  data:
+    mongodb:
+      uri: "mongodb://localhost:27017/?retryWrites=false"
+      database: parquimetro
+      username: root
+      password: example
+springdoc:
+  swagger-ui:
+    path: /swagger.html
+gov:
+  parking:
+    taxas: 1.05
+    each:
+      hour: 3.00
+    max:
+      hours: 3
