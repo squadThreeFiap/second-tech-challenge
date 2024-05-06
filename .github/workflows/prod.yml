@@ -26,7 +26,7 @@ jobs:
               run: docker push squadthreefiap/second-tech-challeng
 
             - name: Build docker image
-              run: docker build -t squadthreefiap/second-tech-challeng/MongoDb .
+              run: docker build -t squadthreefiap/second-tech-challeng/MongoDb/ .
             - name: Push image docker
-              run: docker push squadthreefiap/second-tech-challeng/MongoDb     
+              run: docker push squadthreefiap/second-tech-challeng/MongoDb/     
 
