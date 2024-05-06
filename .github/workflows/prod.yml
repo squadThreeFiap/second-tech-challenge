@@ -26,6 +26,6 @@ jobs:
               run: docker push squadthreefiap/second-tech-challeng
             # Adjusted lines for MongoDB image
             - name: Build MongoDB docker image
-              run: docker build -t squadthreefiap/second-tech-challengmongodb .
+              run: docker build -t squadthreefiap/second-tech-challeng/MongoDb .
             - name: Push MongoDB docker image
-              run: docker push squadthreefiap/second-tech-challeng-mongodb
+              run: docker push squadthreefiap/second-tech-challeng/MongoDb
