@@ -35,5 +35,7 @@ jobs:
       - name: Login Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Push MongoDB docker image
-        run: docker push squadthreefiap/second-tech-challeng/mongodb
+      - name: Build and push application docker image MongoDB
+        run: |
+          docker build -t squadthreefiap/second-tech-challeng/mongodb .
+          docker push squadthreefiap/second-tech-challeng/mongodb
