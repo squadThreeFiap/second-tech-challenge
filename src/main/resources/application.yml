@@ -5,10 +5,10 @@ spring:
      active: 'local'
   data:
     mongodb:
-      uri: "mongodb://localhost:27017/?retryWrites=false"
-      database: parquimetro
-      username: root
-      password: example
+      uri: ${MONGODB_URL}
+      database: ${MONGODB_DATABASE}
+      username: ${MONGODB_USERNAME}
+      password: ${MONGODB_PASSWORD}
 springdoc:
   swagger-ui:
     path: /swagger.html
@@ -19,3 +19,5 @@ gov:
       hour: 3.00
     max:
       hours: 3
+server:
+   port: 9080
