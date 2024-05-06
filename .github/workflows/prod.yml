@@ -25,6 +25,8 @@ jobs:
             - name: Push image docker
               run: docker push squadthreefiap/second-tech-challeng
             # Adjusted lines for MongoDB image
+            - name: Login Docker Hub MongoDB
+              run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}} 
             - name: Build MongoDB docker image
               run: docker build -t squadthreefiap/second-tech-challeng/mongodb .
             - name: Push MongoDB docker image
