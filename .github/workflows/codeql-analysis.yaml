@@ -30,12 +30,6 @@ jobs:
           name: jar
           path: target/*.jar
 
-      - name: Set executable permissions for mvnw
-        run: chmod +x ./mvnw
-
-      - name: Run Maven command
-        run: ./mvnw dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml"
-
   docker:
     name: push image docker
     needs: build
@@ -96,6 +90,12 @@ jobs:
       contents: read
       security-events: write
     steps:
+      - name: Set executable permissions for mvnw
+        run: chmod +x ./mvnw
+
+      - name: Run Maven command
+        run: ./mvnw dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml"
+        
       - name: Checkout code
         uses: actions/checkout@master
 
