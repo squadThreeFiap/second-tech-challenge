@@ -80,3 +80,24 @@ jobs:
         run: mvn -B clean install --file pom.xml -DskipTests
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
+
+  snyk:
+    name: Analyze with Snyk
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js (Required for Snyk CLI)
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14' # Specify the Node.js version you want to use
+
+      - name: Install Snyk CLI
+        run: npm install -g snyk
+
+      - name: Run Snyk to check for vulnerabilities
+        run: snyk test --all-projects
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
