@@ -97,10 +97,10 @@ jobs:
       security-events: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@master
 
       - name: Set up Node.js (Required for Snyk CLI)
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@master
         with:
           node-version: '14' # Specify the Node.js version you want to use
 
