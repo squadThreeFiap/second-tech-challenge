@@ -5,8 +5,31 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  schedule:
+    - cron: '27 0 * * 3'
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build project
+        run: mvn clean install -DskipTests
+
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: jar
+          path: target/*.jar
+
   covarege:
     runs-on: ubuntu-latest
     permissions:
@@ -69,3 +92,67 @@ jobs:
       continue-on-error: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  snyk:
+    name: Analyze with Snyk
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+
+      - name: Set executable permissions for mvnw
+        run: chmod +x ./mvnw
+
+      - name: Run Maven command
+        run: ./mvnw dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml"
+        
+      - name: Set up Node.js (Required for Snyk CLI)
+        uses: actions/setup-node@master
+        with:
+          node-version: '14' # Specify the Node.js version you want to use
+
+      - name: Install Snyk CLI
+        run: npm install -g snyk
+
+      - name: Run Snyk to check for vulnerabilities (Debug Mode)
+        run: snyk test --all-projects --debug
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+  publish:
+    name: push image docker
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: jar
+          path: target
+
+      - name: Login Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push application docker image
+        run: |
+          docker build -t squadthreefiap/second-tech-challeng .
+          docker push squadthreefiap/second-tech-challeng
+  
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to production
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          service-id: ${{ secrets.MY_RENDER_SERVICE_ID }}
+          api-key: ${{ secrets.MY_RENDER_API_KEY }}
+          wait-for-success: true
+
