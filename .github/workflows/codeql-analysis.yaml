@@ -5,8 +5,6 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  schedule:
-    - cron: '27 0 * * 3'
 
 jobs:
   build:
@@ -31,9 +29,28 @@ jobs:
           name: jar
           path: target/*.jar
 
+  teste:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build-project
+        run: mvn compile
+
+      - name: unit-teste
+        run: mvn test
+
   covarege:
     name: covarege
-    needs: build
+    needs: teste
     runs-on: ubuntu-latest
     permissions:
       contents: write  
@@ -96,8 +113,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  analyze:
-    name: snyk
+  security:
+    name: security
     needs: covarege
     runs-on: ubuntu-latest
     permissions:
@@ -117,7 +134,7 @@ jobs:
       - name: Set up Node.js (Required for Snyk CLI)
         uses: actions/setup-node@master
         with:
-          node-version: '14' # Specify the Node.js version you want to use
+          node-version: '14'
 
       - name: Install Snyk CLI
         run: npm install -g snyk
@@ -129,7 +146,7 @@ jobs:
 
   publish:
     name: publish
-    needs: analyze
+    needs: security
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
