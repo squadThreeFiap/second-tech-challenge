@@ -60,11 +60,6 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
 	    <!-- Dependencia Teste-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -117,15 +112,6 @@
                     </goals>
                 </execution>
             </executions>
-        </plugin>
-        <!-- Adicione o plugin Coveralls aqui -->
-        <plugin>
-            <groupId>com.github.hazendaz.maven</groupId>
-            <artifactId>coveralls-maven-plugin</artifactId>
-            <version>4.5.0-M2</version>
-            <configuration>
-                <repoToken>yourcoverallsprojectrepositorytoken</repoToken>
-            </configuration>
         </plugin>
     </plugins>
 </build>
