@@ -1,7 +1,7 @@
 # Second Tech Challenge - Parquímetro API
 
-![Coverage](.github/badges/jacoco.svg)
-![Branches](.github/badges/branches.svg)
+![Coverage](./badges/jacoco.svg)
+![Branches](./badges/branches.svg)
 
 
 ## Modelagem de Dados NoSQL
