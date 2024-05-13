@@ -58,7 +58,7 @@ jobs:
         fi
 
     - name: Comment on PR with coverage percentages
-      if: ${{ github.event_name == 'pull_request' }}
+      if: ${{ github.event_name != 'pull_request' }}
       run: |
         REPORT=$(<badges/coverage-summary.json)
         COVERAGE=$(jq -r '.coverage' <<< "$REPORT")%
