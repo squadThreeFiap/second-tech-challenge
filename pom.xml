@@ -20,7 +20,7 @@
 
 
     	<!-- JaCoCo Properties -->
-    	<jacoco.version>0.8.7</jacoco.version>
+    	<jacoco.version>0.8.12</jacoco.version>
     	<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
     	<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
     	<sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
@@ -79,7 +79,7 @@
         <dependency>
     		<groupId>org.jacoco</groupId> 
     		<artifactId>jacoco-maven-plugin</artifactId>
-    		<version>0.8.11</version>
+    		<version>0.8.12</version>
 		</dependency>
 	</dependencies>
 
