@@ -2,7 +2,7 @@ name: Combined Workflow for CodeQL Analysis and Deployment
 
 on:
   push:
-    branches: [ push ]
+    branches: [ developer ]
   pull_request:
     branches: [ main ]
 
