@@ -1,5 +1,5 @@
 # Use the official MongoDB image
-FROM mongo:4.2
+FROM mongo:4.4.30
 
 # Set the MongoDB environment variables to control the username, password, and database name
 ENV MONGO_INITDB_ROOT_USERNAME=mongoadmin
